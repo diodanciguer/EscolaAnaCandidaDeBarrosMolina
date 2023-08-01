@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gráfico de Evolução IDESP</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .chart-container {
+      width: 49%;
+      margin: 10px;
+      text-align: center;
+    }
+    .chart-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .custom-button {
+      margin: 5px;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .custom-button.active {
+      background-color: #0056b3;
+    }
+
+    .centered-text {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="centered-text">
+    <h1 id="opcaoSelecionadaTitulo">IDESP ANA CANDIDA DE BARROS MOLINA PROFESSORA</h1>
+  </div>
+  <div class="chart-row">
+    <div class="chart-container">
+      <h2 id="opcaoSelecionada">9º ANO EF	</h2>
+      <canvas id="grafico9Ano"></canvas>
+      <canvas id="graficoLinhas9Ano"></canvas>
+    </div>
+    <div class="chart-container">
+      <h2 id="opcaoSelecionada">3º ANO EM</h2>
+      <canvas id="grafico3Ano"></canvas>
+      <canvas id="graficoLinhas3Ano"></canvas>
+    </div>
+  </div>
+  <script>
+    var opcaoSelecionada = 'IDESP Geral'; // Padrão: IDESP Geral
+
+    const dataBarras9Ano = {
+      labels: ['2019', '2021', '2022', '2023 (Meta)'],
+      datasets: [
+        {
+          label: 'IDESP Geral',
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          borderColor: 'rgb(255, 99, 132)',
+          borderWidth: 1,
+          data: [3.54, 2.41, 2.58, 2.79],
+          hidden: opcaoSelecionada !== 'IDESP Geral'
+        },
+        {
+          label: 'Língua Portuguesa (9º Ano)',
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgb(54, 162, 235)',
+          borderWidth: 1,
+          data: [4.556, 3.768, 4.263, 4.03],
+          hidden: opcaoSelecionada !== 'Língua Portuguesa'
+        },
+        {
+          label: 'Matemática (9º Ano)',
+          backgroundColor: 'rgba(255, 159, 64, 0.5)',
+          borderColor: 'rgb(255, 159, 64)',
+          borderWidth: 1,
+          data: [2.796, 2.899, 3.411, 2.79],
+          hidden: opcaoSelecionada !== 'Matemática'
+        },
+        {
+          label: 'Média de Desempenho (9º Ano)',
+          backgroundColor: 'rgba(75, 192, 192, 0.5)',
+          borderColor: 'rgb(75, 192, 192)',
+          borderWidth: 1,
+          data: [3.68, 3.33, 3.84, 4.03],
+          hidden: opcaoSelecionada !== 'Média de Desempenho (9º Ano)'
+        },
+        {
+          label: 'Indicador de Fluxo (9º Ano)',
+          backgroundColor: 'rgba(153, 102, 255, 0.5)',
+          borderColor: 'rgb(153, 102, 255)',
+          borderWidth: 1,
+          data: [0.9615, 0.9569, 0.9956, 1.0],
+          hidden: opcaoSelecionada !== 'Indicador de Fluxo (9º Ano)'
+        }
+      ]
+    };
+
+    const configGroupedBar9Ano = {
+      type: 'bar',
+      data: dataBarras9Ano,
+      options: {
+        indexAxis: 'x',
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Evolução do IDESP e Pontuações (9º Ano)'
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            stacked: true,
+            title: {
+              display: true,
+              text: 'Ano'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            stacked: true,
+            title: {
+              display: true,
+              text: 'Pontuação'
+            }
+          }
+        }
+      }
+    };
+
+    const dataLinhas9Ano = {
+      labels: ['2019', '2021', '2022', '2023 (Meta)'],
+      datasets: [
+        {
+          label: 'IDESP Geral',
+          fill: false,
+          borderColor: 'rgb(255, 99, 132)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgb(255, 99, 132)',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          data: [3.54, 2.41, 2.58, 2.79],
+          hidden: opcaoSelecionada !== 'IDESP Geral'
+        },
+        {
+          label: 'Língua Portuguesa (9º Ano)',
+          fill: false,
+          borderColor: 'rgb(54, 162, 235)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgb(54, 162, 235)',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          data: [4.556, 3.768, 4.263, 4.03],
+          hidden: opcaoSelecionada !== 'Língua Portuguesa'
+        },
+        {
+          label: 'Matemática (9º Ano)',
+          fill: false,
+          borderColor: 'rgb(255, 159, 64)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgb(255, 159, 64)',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          data: [2.796, 2.899, 3.411, 2.79],
+          hidden: opcaoSelecionada !== 'Matemática'
+        },
+        {
+          label: 'Média de Desempenho (9º Ano)',
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgb(75, 192, 192)',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          data: [3.68, 3.33, 3.84, 4.03],
+          hidden: opcaoSelecionada !== 'Média de Desempenho (9º Ano)'
+        },
+        {
+          label: 'Indicador de Fluxo (9º Ano)',
+          fill: false,
+          borderColor: 'rgb(153, 102, 255)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgb(153, 102, 255)',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          data: [0.9615, 0.9569, 0.9956, 1.0],
+          hidden: opcaoSelecionada !== 'Indicador de Fluxo (9º Ano)'
+        }
+      ]
+    };
+
+    const configLine9Ano = {
+      type: 'line',
+      data: dataLinhas9Ano,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Evolução do IDESP e Pontuações (9º Ano)'
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Ano'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Pontuação'
+            }
+          }
+        }
+      }
+    };
+
+    var graficoBarras9Ano = new Chart(
+      document.getElementById('grafico9Ano'),
+      configGroupedBar9Ano
+    );
+
+    var graficoLinhas9Ano = new Chart(
+      document.getElementById('graficoLinhas9Ano'),
+      configLine9Ano
+    );
+
+    const dataBarras3Ano = {
+      labels: ['2019', '2021', '2022', '2023 (Meta)'],
+      datasets: [
+        {
+          label: 'IDESP Geral',
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          borderColor: 'rgb(255, 99, 132)',
+          borderWidth: 1,
+          data: [3.54, 2.41, 2.58, 2.79],
+          hidden: opcaoSelecionada !== 'IDESP Geral'
+        },
+        {
+          label: 'Língua Portuguesa (3º Ano)',
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgb(54, 162, 235)',
+          borderWidth: 1,
+          data: [4.556, 3.768, 4.263, 4.03],
+          hidden: opcaoSelecionada !== 'Língua Portuguesa'
+        },
+        {
+          label: 'Matemática (3º Ano)',
+          backgroundColor: 'rgba(255, 159, 64, 0.5)',
+          borderColor: 'rgb(255, 159, 64)',
+          borderWidth: 1,
+          data: [2.796, 2.899, 3.411, 2.79],
+          hidden: opcaoSelecionada !== 'Matemática'
+        },
+        {
+          label: 'Média de Desempenho (3º Ano)',
+          backgroundColor: 'rgba(75, 192, 192, 0.5)',
+          borderColor: 'rgb(75, 192, 192)',
+          borderWidth: 1,
+          data: [2.59, 2.34, 3.84, 2.79],
+          hidden: opcaoSelecionada !== 'Média de Desempenho (3º Ano)'
+        },
+        {
+          label: 'Indicador de Fluxo (3º Ano)',
+          backgroundColor: 'rgba(153, 102, 255, 0.5)',
+          borderColor: 'rgb(153, 102, 255)',
+          borderWidth: 1,
+          data: [0.9286, 0.9475, 0.9952, 1.0],
+          hidden: opcaoSelecionada !== 'Indicador de Fluxo (3º Ano)'
+        }
+      ]
+    };
+
+    const configGroupedBar3Ano = {
+      type: 'bar',
+      data: dataBarras3Ano,
+      options: {
+        indexAxis: 'x',
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Evolução do IDESP e Pontuações (3º Ano)'
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            stacked: true,
+            title: {
+              display: true,
+              text: 'Ano'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            stacked: true,
+            title: {
+              display: true,
+              text: 'Pontuação'
+            }
+          }
+        }
+      }
+    };
+
+    const dataLinhas3Ano = {
+      labels: ['2019', '2021', '2022', '2023 (Meta)'],
+      datasets: [
+        {
+          label: 'IDESP Geral',
+          fill: false,
+          borderColor: 'rgb(255, 99, 132)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgb(255, 99, 132)',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          data: [3.54, 2.41, 2.58, 2.79],
+          hidden: opcaoSelecionada !== 'IDESP Geral'
+        },
+        {
+          label: 'Língua Portuguesa (3º Ano)',
+          fill: false,
+          borderColor: 'rgb(54, 162, 235)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgb(54, 162, 235)',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          data: [4.556, 3.768, 4.263, 4.03],
+          hidden: opcaoSelecionada !== 'Língua Portuguesa'
+        },
+        {
+          label: 'Matemática (3º Ano)',
+          fill: false,
+          borderColor: 'rgb(255, 159, 64)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgb(255, 159, 64)',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          data: [2.796, 2.899, 3.411, 2.79],
+          hidden: opcaoSelecionada !== 'Matemática'
+        },
+        {
+          label: 'Média de Desempenho (3º Ano)',
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgb(75, 192, 192)',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          data: [2.59, 2.34, 3.84, 2.79],
+          hidden: opcaoSelecionada !== 'Média de Desempenho (3º Ano)'
+        },
+        {
+          label: 'Indicador de Fluxo (3º Ano)',
+          fill: false,
+          borderColor: 'rgb(153, 102, 255)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgb(153, 102, 255)',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          data: [0.9286, 0.9475, 0.9952, 1.0],
+          hidden: opcaoSelecionada !== 'Indicador de Fluxo (3º Ano)'
+        }
+      ]
+    };
+
+    const configLine3Ano = {
+      type: 'line',
+      data: dataLinhas3Ano,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Evolução do IDESP e Pontuações (3º Ano)'
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Ano'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Pontuação'
+            }
+          }
+        }
+      }
+    };
+
+    var graficoBarras3Ano = new Chart(
+      document.getElementById('grafico3Ano'),
+      configGroupedBar3Ano
+    );
+
+    var graficoLinhas3Ano = new Chart(
+      document.getElementById('graficoLinhas3Ano'),
+      configLine3Ano
+    );
+
+    function changeOption(opcao) {
+      opcaoSelecionada = opcao;
+      document.getElementById('opcaoSelecionada').innerText = opcao;
+
+      graficoBarras9Ano.data.datasets.forEach(dataset => {
+        dataset.hidden = dataset.label !== opcaoSelecionada;
+      });
+      graficoLinhas9Ano.data.datasets.forEach(dataset => {
+        dataset.hidden = dataset.label !== opcaoSelecionada;
+      });
+      graficoBarras9Ano.update();
+      graficoLinhas9Ano.update();
+
+      graficoBarras3Ano.data.datasets.forEach(dataset => {
+        dataset.hidden = dataset.label !== opcaoSelecionada;
+      });
+      graficoLinhas3Ano.data.datasets.forEach(dataset => {
+        dataset.hidden = dataset.label !== opcaoSelecionada;
+      });
+      graficoBarras3Ano.update();
+      graficoLinhas3Ano.update();
+    }
+  </script>
+</body>
+</html>
